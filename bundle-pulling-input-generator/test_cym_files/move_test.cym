@@ -1,0 +1,102 @@
+set simul system
+{
+	dim = 2
+	time_step = 0.001
+	viscosity = 0.001
+	temperature = 1
+}
+
+set space cell
+{
+    shape = rectangle
+}
+
+new cell
+{
+    length =  5, 5
+}
+
+
+% anchor point
+set hand strong_hand
+{
+    unbinding_rate = 0
+    unbinding_force = 1e6
+    display = ( size = 20 )
+}
+
+set single anchor
+{
+    hand = strong_hand
+    stiffness = 1000
+    activity = fixed
+}
+
+set single pullerA
+{
+	hand = strong_hand
+	stiffness = 1000
+	activity = fixed
+}
+
+set single pullerB
+{
+	hand = strong_hand
+	stiffness = 1000
+	activity = fixed
+}
+
+set fiber actin
+{
+    rigidity = 0.1
+    segmentation = 0.1
+    confine = inside, 1, cell
+}
+
+set fiber actin_pull
+{
+	rigidity = 0.1
+	segmentation = 0.1
+	confine = inside, 1, cell
+}
+
+new 10 actin
+{
+    orientation = 1 0 
+    position = ( 0 0 )
+    length = 0.25
+    attach = anchor, 0.125, plus_end
+}
+
+new 10 actin_pull
+{
+	orientation = 1 0
+	position = ( 0 0 )
+	length = 0.25
+	attach = pullerA, 0.125, plus_end
+}
+
+run system
+{
+	nb_steps =  100
+	nb_frames = 1
+}
+
+for CNT=0 :10 {
+	new pullerB 
+	{
+		attach = actin_pullCNT, 0.125
+		position = (0.125 0)
+	}
+}
+
+delete all pullerA
+
+run system
+{
+	nb_steps = 1000
+	nb_frames = 10
+}
+
+
+

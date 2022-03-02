@@ -1,0 +1,75 @@
+for CNT=0 :10
+{
+	new pullerB
+	{
+		attach = actin_pullCNT, 0.125
+		position = (0.100000 0)
+	}
+}
+delete all pullerA
+run system
+{
+	nb_steps = 100
+	nb_frames = 1
+}
+
+for CNT=0 :10
+{
+	new pullerA
+	{
+		attach = actin_pullCNT, 0.125
+		position = (0.200000 0)
+	}
+}
+delete all pullerB
+run system
+{
+	nb_steps = 100
+	nb_frames = 1
+}
+
+for CNT=0 :10
+{
+	new pullerB
+	{
+		attach = actin_pullCNT, 0.125
+		position = (0.300000 0)
+	}
+}
+delete all pullerA
+run system
+{
+	nb_steps = 100
+	nb_frames = 1
+}
+
+for CNT=0 :10
+{
+	new pullerA
+	{
+		attach = actin_pullCNT, 0.125
+		position = (0.400000 0)
+	}
+}
+delete all pullerB
+run system
+{
+	nb_steps = 100
+	nb_frames = 1
+}
+
+for CNT=0 :10
+{
+	new pullerB
+	{
+		attach = actin_pullCNT, 0.125
+		position = (0.500000 0)
+	}
+}
+delete all pullerA
+run system
+{
+	nb_steps = 100
+	nb_frames = 1
+}
+
