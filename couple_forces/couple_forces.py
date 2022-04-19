@@ -168,8 +168,6 @@ def calc_force_vec(args, temp_dataframe):
 		f_vec1 = df_couple["force"].values[0]*dir_vec1 / np.linalg.norm(dir_vec1)
 		f_vec2 = df_couple["force"].values[0]*dir_vec2 / np.linalg.norm(dir_vec2)
 
-		breakpoint()
-
 def calculate_force_components(args, temp_dataframe):
 	"""Open input file, make a copy, remove unnecessary lines, process data,
 	write to output file
@@ -229,8 +227,6 @@ def calculate_force_components(args, temp_dataframe):
 										   x1_force_sum, y1_force_sum, \
 										   x2_force_sum, y2_force_sum)
 
-	breakpoint()
-
 	return output_df
 
 def write_output_file(file_dict, output_df):
@@ -239,7 +235,6 @@ def write_output_file(file_dict, output_df):
 	output_df.to_csv(output_file_path, float_format='%.3f', header=False, index=None, sep="\t")
 
 def delete_temp_file(file_dict):
-
 	try:
 		os.remove(file_dict["temp"]["path"])
 	except OSError as e:  ## if failed, report it back to the user ##
