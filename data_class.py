@@ -32,7 +32,10 @@ class Data():
 
 		self.args = self.get_args(argv)
 		self.file_dict = self.get_file_paths()
-		self.temp_dataframe = self.preprocess_file()
+
+		self.temp_dataframe = pd.DataFrame()
+		self.preprocess_file()
+
 		self.output_df = pd.DataFrame()
 
 	def get_args(self, argv):
@@ -100,21 +103,26 @@ class Data():
 					temp_file.write(line.replace("%",""))
 
 		# Read the whitespace-delimited data file that is output by Cytosim
-		temp_dataframe = pd.read_csv(self.file_dict["temp"]["path"], delim_whitespace=True)
+		self.temp_dataframe = pd.read_csv(self.file_dict["temp"]["path"], delim_whitespace=True)
 
 		# Check that data from only one simulation frame was loaded
-		if temp_dataframe["identity"].isin(["identity"]).any():
+		if self.temp_dataframe["identity"].isin(["identity"]).any():
 			raise ValueError("Data for more than one frame loaded.")
 
+		self.write_temp_dataframe()
+
+	def get_relevant_columns(self, column_list):
+		self.temp_dataframe = self.temp_dataframe[column_list]
+		self.write_temp_dataframe()
+
+	def write_temp_dataframe(self):
 		# Update the temp file, mostly for debugging.
 		# File not used for calculations, calcs done with the dataframe object
-		temp_dataframe.to_csv(self.file_dict["temp"]["path"], sep="\t", index=None)
-
-		return temp_dataframe
+		self.temp_dataframe.to_csv(self.file_dict["temp"]["path"], sep="\t", index=None)
 
 	def write_output_file(self):
 		# Write to output file
-		self.output_df.to_csv(self.file_dict["output"]["path"], float_format='%.3f', header=False, index=None, sep="\t")
+		self.output_df.to_csv(self.file_dict["output"]["path"], float_format='%.3f', header=True, index=None, sep="\t")
 
 	def delete_temp_file(self):
 		try:
