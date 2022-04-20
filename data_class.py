@@ -21,12 +21,11 @@ class MultiFrameError(ValueError):
 class Data():
 	def __init__(self, argv=sys.argv[1:]):
 
-		breakpoint()
 
-		if (	('--ifile' not in argv) or \
-		 		('-i' not in argv)) or \
-				(len(argv) < 2):
-			raise ValueError("No input file specified")
+		# if (	('--ifile' not in argv) or \
+		#  		('-i' not in argv)) or \
+		# 		(len(argv) < 2):
+		# 	raise ValueError("No input file specified")
 
 		if argv != sys.argv[1:]:
 			os.chdir(sys.path[0])
@@ -116,7 +115,6 @@ class Data():
 	def write_output_file(self):
 		# Write to output file
 		self.output_df.to_csv(self.file_dict["output"]["path"], float_format='%.3f', header=False, index=None, sep="\t")
-
 
 	def delete_temp_file(self):
 		try:
