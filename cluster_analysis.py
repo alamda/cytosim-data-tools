@@ -23,18 +23,18 @@ class Cluster(Data):
 		self.ratio_parallel_fils = self.num_parallel_fils / self.num_unique_fil_pairs
 		self.ratio_antiparallel_fils = self.num_antiparallel_fils / self.num_unique_fil_pairs
 
-		output = {'N_f':		self.total_num_fils, \
-				  'N_c':		self.total_num_couples, \
-				  'N_c:N_f':	self.ratio_couples_to_fils, \
-				  'N_pc':		self.num_parallel_fil_pairs, \
-				  'N_pc:N_c':	self.ratio_parallel_fil_pairs, \
-				  'N_ac':		self.num_antiparallel_fil_pairs, \
-				  'N_ac:N_c':	self.ratio_antiparallel_fil_pairs,\
-				  'N_ufp':		self.num_unique_fil_pairs,\
-				  'N_pf':		self.num_parallel_fils,\
-				  'N_pf:N_ufp':	self.ratio_parallel_fils,\
-				  'N_af':		self.num_antiparallel_fils,\
-				  'N_af:N_ufp':	self.ratio_antiparallel_fils}
+		output = {'Nf':		self.total_num_fils, \
+				  'Nc':		self.total_num_couples, \
+				  'Rcf':	self.ratio_couples_to_fils, \
+				  'Npc':		self.num_parallel_fil_pairs, \
+				  'Rpc':	self.ratio_parallel_fil_pairs, \
+				  'Nac':		self.num_antiparallel_fil_pairs, \
+				  'Rac':	self.ratio_antiparallel_fil_pairs,\
+				  'Nufp':		self.num_unique_fil_pairs,\
+				  'Npf':		self.num_parallel_fils,\
+				  'Rpf':	self.ratio_parallel_fils,\
+				  'Naf':		self.num_antiparallel_fils,\
+				  'Raf':	self.ratio_antiparallel_fils}
 
 		self.output_df = pd.DataFrame([output])
 
