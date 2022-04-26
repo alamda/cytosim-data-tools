@@ -1,5 +1,7 @@
 # Extra stuff specific to this project
 *.tmp
+sample_trajectories/pulling/
+sample_trajectories/no_pulling/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

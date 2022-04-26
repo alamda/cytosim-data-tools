@@ -19,8 +19,7 @@ class MultiFrameError(ValueError):
 	pass
 
 class Data():
-	def __init__(self, argv=sys.argv[1:]):
-
+	def __init__(self, argv=sys.argv[1:], column_list=['class', 'identity']):
 
 		# if (	('--ifile' not in argv) or \
 		#  		('-i' not in argv)) or \
@@ -36,7 +35,13 @@ class Data():
 		self.temp_dataframe = pd.DataFrame()
 		self.preprocess_file()
 
+		self.column_list = column_list
+		self.get_relevant_columns(self.column_list)
+
 		self.output_df = pd.DataFrame()
+
+	def __del__(self):
+		self.delete_temp_file()
 
 	def get_args(self, argv):
 		"""Parse the command line input flags and arguments"""
