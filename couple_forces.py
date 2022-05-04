@@ -1,8 +1,11 @@
-from cluster_analysis import Cluster
+from data_class import Data
 
-class CoupleForces(Cluster):
+import numpy as np
+import pandas as pd
+
+class CoupleForces(Data):
     def __init__(self):
-        super().__init__()
+        super().__init__(self)
 
     def write_to_dataframe(self, couple_id, cluster_id, \
     					   x1_force, y1_force, x2_force, y2_force, \
@@ -76,6 +79,6 @@ class CoupleForces(Cluster):
         self.write_output_file()
 
 column_list = [ 'identity', 'cluster', 'force', 'cos_angle', 'pos1X', 'pos1Y', 'pos2X', 'pos2Y' ]
-myCoupleForces = CoupleForces()
+myCoupleForces = CoupleForces(column_list)
 myCoupleForces.analyze_forces()
 del myCoupleForces
