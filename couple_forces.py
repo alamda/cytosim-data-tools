@@ -102,7 +102,7 @@ class CoupleForces(Data):
 	def write_output_file(self):
 		super().write_output_file()
 
-		self.sum_output_df.to_csv(self.file_dict["sum"]["path"], float_format='%.3f', header=True, index=None, sep="\t")
+		self.sum_output_df.to_csv(self.file_dict["sum"]["path"], float_format='%.5f', header=True, index=None, sep="\t")
 
 
 column_list = [ 'identity', 'cluster', 'force', 'cos_angle', 'pos1X', 'pos1Y', 'pos2X', 'pos2Y' ]

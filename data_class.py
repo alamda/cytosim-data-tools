@@ -48,8 +48,6 @@ class Data():
 	def __del__(self):
 		self.delete_temp_file()
 
-
-
 	def get_args(self, argv):
 		"""Parse the command line input flags and arguments"""
 
@@ -141,7 +139,7 @@ class Data():
 
 	def write_output_file(self):
 		# Write to output file
-		self.output_df.to_csv(self.file_dict["output"]["path"], float_format='%.3f', header=True, index=None, sep="\t")
+		self.output_df.to_csv(self.file_dict["output"]["path"], float_format='%.8f', header=True, index=None, sep="\t")
 
 	def delete_temp_file(self):
 		try:
