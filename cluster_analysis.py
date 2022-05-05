@@ -2,21 +2,8 @@ from data_class import Data
 import pandas as pd
 
 class Cluster(Data):
-	def __init__(self):
-		super().__init__()
-
-		if (self.args.largest == True) and ('cluster' in self.temp_dataframe.columns) :
-			self.largest_cluster_id = self.get_largest_cluster_id() ;
-			self.get_largest_cluster_data()
-
-	def get_largest_cluster_id(self):
-		return self.temp_dataframe['cluster'].mode().values[0]
-
-	def get_largest_cluster_data(self):
-		for cluster_id, df_cluster in self.temp_dataframe.groupby('cluster'):
-			if cluster_id == self.largest_cluster_id:
-				self.temp_dataframe = df_cluster
-				self.write_temp_dataframe()
+	def __init__(self, column_list):
+		super().__init__(column_list=column_list)
 
 	def get_num_fils(self):
 		fiber_ids_df = pd.concat([self.temp_dataframe['fiber1'], self.temp_dataframe['fiber2']], ignore_index=True)

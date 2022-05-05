@@ -30,7 +30,8 @@ class Data():
 			os.chdir(sys.path[0])
 
 		self.args = self.get_args(argv)
-		self.file_dict = self.get_file_paths()
+		self.file_dict = {}
+		self.get_file_paths()
 
 		self.temp_dataframe = pd.DataFrame()
 		self.preprocess_file()
@@ -40,8 +41,14 @@ class Data():
 
 		self.output_df = pd.DataFrame()
 
+		if (self.args.largest == True) and ('cluster' in self.temp_dataframe.columns) :
+			self.largest_cluster_id = self.get_largest_cluster_id() ;
+			self.get_largest_cluster_data()
+
 	def __del__(self):
 		self.delete_temp_file()
+
+
 
 	def get_args(self, argv):
 		"""Parse the command line input flags and arguments"""
@@ -87,9 +94,7 @@ class Data():
 		output_dict = {"name": output_file_name, "path": output_file_path}
 		temp_dict = {"name": temp_file_name, "path": temp_file_path}
 
-		file_dict = {"input": input_dict, "output": output_dict, "temp": temp_dict}
-
-		return file_dict
+		self.file_dict = {"input": input_dict, "output": output_dict, "temp": temp_dict}
 
 	def preprocess_file(self):
 		"""Pre-process input data to remove extraneous (non-data or non-column
@@ -119,6 +124,15 @@ class Data():
 	def get_relevant_columns(self, column_list):
 		self.temp_dataframe = self.temp_dataframe[column_list]
 		self.write_temp_dataframe()
+
+	def get_largest_cluster_id(self):
+		return self.temp_dataframe['cluster'].mode().values[0]
+
+	def get_largest_cluster_data(self):
+		for cluster_id, df_cluster in self.temp_dataframe.groupby('cluster'):
+			if cluster_id == self.largest_cluster_id:
+				self.temp_dataframe = df_cluster
+				self.write_temp_dataframe()
 
 	def write_temp_dataframe(self):
 		# Update the temp file, mostly for debugging.
