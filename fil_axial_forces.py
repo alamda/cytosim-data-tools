@@ -86,10 +86,19 @@ class FilAxialForces(Data):
 
 		self.file_dict["sum"] = sum_dict
 
+		fil_output_file_path = self.file_dict["input"]["path"].with_suffix(".fil.dat")
+		fil_output_file_name = fil_output_file_path.name
+
+		fil_dict = {"name": fil_output_file_name, "path": fil_output_file_path}
+
+		self.file_dict["fil"] = fil_dict
+
 	def write_output_file(self):
 		super().write_output_file()
 
 		self.sum_output_df.to_csv(self.file_dict["sum"]["path"], float_format='%.5f', header=True, index=None, sep="\t")
+
+		self.fil_force_df.to_csv(self.file_dict["fil"]["path"], float_format='%.5f', header=False, index=None, sep="\t")
 #
 column_list = [ 'identity', 'cluster', 'force', \
 				'pos1X', 'pos1Y', 'fiber1', 'dirFiber1X', 'dirFiber1Y', \
