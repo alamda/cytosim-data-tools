@@ -9,11 +9,17 @@ class FilAxialForces(Data):
 		self.fil_force_df = pd.DataFrame(columns=[ 'fil_id', 'f' ])
 		self.sum_output_df = pd.DataFrame()
 
-	def calc_force_vec_proj(self, fil_vec, force_vec):
+	def normalize(self, vec):
+		norm = np.linalg.norm(vec)
+		if norm == 0:
+			return vec
+		return vec / norm
 
-		# Maybe these vectors need to be normalized first???
-		# fil_vec is taken directly from cytosim data and is normalized
-		# I have not checked that force_vec is normalized (it probably isn't, now that i think about it.)
+	def calc_dot_prod(self, fil_vec, force_vec):
+
+		# Normalize the vectors
+		fil_vec = self.normalize(fil_vec)
+		force_vec = self.normalize(force_vec)
 		return np.dot(fil_vec, force_vec)
 
 	def calc_fil_forces(self):
@@ -41,8 +47,8 @@ class FilAxialForces(Data):
 			if self.args.largest:
 				if cluster_id == self.largest_cluster_id:
 					# Need to multiply force magnitude bc direction vectors should be (?) unit vectors
-					f1 = force_mag * self.calc_force_vec_proj(fil_dir1, cpl_dir1)
-					f2 = force_mag * self.calc_force_vec_proj(fil_dir2, cpl_dir2)
+					f1 = force_mag * self.calc_dot_prod(fil_dir1, cpl_dir1)
+					f2 = force_mag * self.calc_dot_prod(fil_dir2, cpl_dir2)
 
 					new_df1 = pd.DataFrame( [[ fil_id1, f1 ]],\
 											columns = [ "fil_id", "f" ])
@@ -51,8 +57,8 @@ class FilAxialForces(Data):
 					new_df2 = pd.DataFrame( [[ fil_id2, f2 ]],\
 											columns = [ "fil_id", "f" ])
 			else:
-				f1 = force_mag * self.calc_force_vec_proj(fil_dir1, cpl_dir1)
-				f2 = force_mag * self.calc_force_vec_proj(fil_dir2, cpl_dir2)
+				f1 = force_mag * self.calc_dot_prod(fil_dir1, cpl_dir1)
+				f2 = force_mag * self.calc_dot_prod(fil_dir2, cpl_dir2)
 
 				new_df1 = pd.DataFrame( [[ fil_id1, f1 ]],\
 										columns = [ "fil_id", "f" ])
