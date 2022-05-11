@@ -78,12 +78,14 @@ class FilAxialForces(Data):
 
 			self.output_df = pd.concat([self.output_df, new_df], ignore_index=True)
 
+	def calc_sum_fil_forces(self):
 		f_sum = self.output_df["f_sum"].sum()
 
 		self.sum_output_df = pd.DataFrame( [[ f_sum ]], columns=["f_sum"])
 
 	def analyze_forces(self):
 		self.calc_fil_forces()
+		self.calc_sum_fil_forces()
 		self.write_output_file()
 
 	def get_file_paths(self):
@@ -104,15 +106,17 @@ class FilAxialForces(Data):
 		self.file_dict["fil"] = fil_dict
 
 	def write_output_file(self):
-		super().write_output_file()
+		Data.write_output_file(self)
 
 		self.sum_output_df.to_csv(self.file_dict["sum"]["path"], float_format='%.5f', header=True, index=None, sep="\t")
 
 		self.fil_force_df.to_csv(self.file_dict["fil"]["path"], float_format='%.5f', header=False, index=None, sep="\t")
 #
-column_list = [ 'identity', 'cluster', 'force', \
+if __name__=="__main__":
+	column_list = [ 'identity', 'cluster', 'force', \
 				'pos1X', 'pos1Y', 'fiber1', 'dirFiber1X', 'dirFiber1Y', \
 				'pos2X', 'pos2Y', 'fiber2', 'dirFiber2X', 'dirFiber2Y' ]
-myFilAxialForces = FilAxialForces(column_list)
-myFilAxialForces.analyze_forces()
-del myFilAxialForces
+
+	myFilAxialForces = FilAxialForces(column_list)
+	myFilAxialForces.analyze_forces()
+	del myFilAxialForces
