@@ -31,6 +31,13 @@ class CoupleVelocities(FilAxialForces):
 	def get_file_paths(self):
 		Data.get_file_paths(self)
 
+		output_file_path = self.file_dict["output"]["path"].with_suffix(".vel.dat")
+		output_file_name = output_file_path.name
+
+		output_dict = {"name": output_file_name, "path": output_file_path}
+
+		self.file_dict["output"] = output_dict
+
 		config_file_name = self.args.cfile
 		config_file_path = Path(config_file_name)
 
